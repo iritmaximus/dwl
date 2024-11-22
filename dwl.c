@@ -1263,6 +1263,7 @@ deck(Monitor *m)
 	unsigned int mw, my;
 	int i, n = 0;
 	Client *c;
+    int draw_borders = 0;
 
 	wl_list_for_each(c, &clients, link)
 		if (VISIBLEON(c, m) && !c->isfloating && !c->isfullscreen)
@@ -1271,20 +1272,21 @@ deck(Monitor *m)
 		return;
 
 	if (n > m->nmaster)
-		mw = m->nmaster ? ROUND(m->w.width * m->mfact) : 0;
+		mw = m->nmaster ? round(m->w.width * m->mfact) : 0;
 	else
 		mw = m->w.width;
+
 	i = my = 0;
 	wl_list_for_each(c, &clients, link) {
 		if (!VISIBLEON(c, m) || c->isfloating || c->isfullscreen)
 			continue;
 		if (i < m->nmaster) {
 			resize(c, (struct wlr_box){.x = m->w.x, .y = m->w.y + my, .width = mw,
-				.height = (m->w.height - my) / (MIN(n, m->nmaster) - i)}, 0);
+				.height = (m->w.height - my) / (MIN(n, m->nmaster) - i)}, 0, draw_borders);
 			my += c->geom.height;
 		} else {
 			resize(c, (struct wlr_box){.x = m->w.x + mw, .y = m->w.y,
-				.width = m->w.width - mw, .height = m->w.height}, 0);
+				.width = m->w.width - mw, .height = m->w.height}, 0, draw_borders);
 			if (c == focustop(m))
 				wlr_scene_node_raise_to_top(&c->scene->node);
 		}
