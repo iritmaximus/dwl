@@ -1,4 +1,4 @@
-# dwl - dwm for Wayland
+# dwl - dwm for Wayland ( fork of https://codeberg.org/dwl/dwl/src/branch/main )
 
 Join us on our IRC channel: [#dwl on Libera Chat]  
 Or on our [Discord server].
