@@ -1,3 +1,5 @@
+#include <X11/XF86keysym.h>
+
 /* Taken from https://github.com/djpohly/dwl/issues/466 */
 #define COLOR(hex)    { ((hex >> 24) & 0xFF) / 255.0f, \
                         ((hex >> 16) & 0xFF) / 255.0f, \
@@ -177,6 +179,16 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                   7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_E,          quit,           {0} },
+
+    { 0,                         XF86XK_AudioMute,          spawn,   SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+    { 0,                         XF86XK_AudioRaiseVolume,   spawn,   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
+    { 0,                         XF86XK_AudioLowerVolume,   spawn,   SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
+    { 0,                         XF86XK_AudioMicMute,       spawn,   SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
+
+    { 0,                         XF86XK_MonBrightnessUp,    spawn,   SHCMD("brightnessctl set +10%") },
+    { 0,                         XF86XK_MonBrightnessDown,  spawn,   SHCMD("brightnessctl set -10%") },
+    { MODKEY,                    XF86XK_MonBrightnessUp,    spawn,   SHCMD("brightnessctl set 100%") },
+    { MODKEY,                    XF86XK_MonBrightnessDown,  spawn,   SHCMD("brightnessctl set 1") },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
